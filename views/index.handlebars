@@ -1,0 +1,79 @@
+{{> navbar-home}}
+<div class="jumbotron text-center" id="jumbotron">
+    <h3 class="pagetitle">Upcoming Events</h3>
+</div>
+<div class="container clearfix" id="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>
+                        Save Events to Attend
+                    </strong></h3>
+                </div>
+                <div class="panel-body" id="well-section">
+                    {{> events}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scrape Modal -->
+<div class="modal fade" id="scrapeModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-message">
+            Scrape Complete!
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn scrapeCloseBtn" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Warning Modal -->
+<div class="modal fade" id="warningModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-message">
+                <h2 class="warning">WARNING!</h2>
+                <p>Selecting "CLEAR!" will delete all your scraped & saved articles, and your notes!</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="destroy-btn" data-dismiss="modal">CLEAR!</button>
+                <button type="button" class="btn scrapeCloseBtn" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Save Article Modal -->
+<div class="modal fade" id="saveArticleModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-message">
+            Article Saved!
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn saveArticleCloseBtn" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -18,9 +18,13 @@
   "homepage": "https://github.com/dgellisco/18-Mongo#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
-    "mongoose": "^5.4.16"
-  }
+    "mongoose": "^5.4.16",
+    "morgan": "^1.9.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {}
 }

@@ -1,0 +1,94 @@
+{{> navbar-saved}}
+<div class="jumbotron text-center" id="jumbotron">
+    <h3 class="pagetitle">Saved Articles</h3>
+</div>
+<div class="container clearfix" id="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>
+                        Add Notes to Saved Articles
+                    </strong></h3>
+                </div>
+                <div class="panel-body" id="well-section">
+                    {{> saved-events}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Notes Modal -->
+<div class="modal fade" id="notesModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close notesCloseBtn" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="titleinput" name="title" placeholder="Title">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" id="bodyinput" placeholder="Note Text"></textarea>
+                </div>
+                <button type="button" class="btn btn-success saveNoteBtn">Save Note</button>
+                <hr>
+                <div class="noteArea">
+                    <!-- Saved Notes appended here -->
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn notesCloseBtn" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Warning Modal -->
+<div class="modal fade" id="warningModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-message">
+                <h2 class="warning">WARNING!</h2>
+                <p>Selecting "CLEAR!" will delete all your scraped & saved articles, and your notes!</p>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="destroy-btn" data-dismiss="modal">CLEAR!</button>
+                <button type="button" class="btn scrapeCloseBtn" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Return Article Modal -->
+<div class="modal fade" id="returnArticleModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-message">
+            Article Returned!
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn returnArticleCloseBtn" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

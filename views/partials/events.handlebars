@@ -1,0 +1,29 @@
+{{#each events}}{{#unless saved}}
+<div class="card">
+
+    <div class="card-body event-details-div">
+        <div class="event-details-div-img">
+            <img src="{{imgthumb}}" class="article-img" height="150">
+        </div>
+        <div class="event-details-div-body">
+            <p class="event-details-text"><strong>{{artist}}</strong></p>
+            <p class="event-details-text">{{venue}}</p>
+            <p class="event-details-text">{{date}} at {{time}}</p>
+        </div>
+    </div>
+
+    {{!-- Save button --}}
+    <div class="card-header save-btns-div">
+        <a href="{{eventlink}}" target="_blank">
+            <button type="button" class="btn buy-btns" id="btn-buy" data-id="{{_id}}">
+                {{ticketstatus}}
+            </button>
+        </a>
+        <button type="button" class="btn save-btns" id="btn-going" data-id="{{_id}}">Going</button>
+        <button type="button" class="btn save-btns" id="btn-interested" data-id="{{_id}}">Interested</button>
+        <button type="button" class="btn save-btns" id="btn-dismiss" data-id="{{_id}}">Dismiss</button>
+    </div>
+
+</div>
+<br>
+{{/unless}}{{/each}}

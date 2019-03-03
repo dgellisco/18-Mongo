@@ -1,0 +1,28 @@
+{{#each events}}{{#if saved}}
+<div class="card">
+    <div class="card-header bg-primary">
+        <div class="header-right">
+            <button type="button" class="btn notes-btn btn-success" id="notes-btn" data-id="{{_id}}">Notes</button>
+            <button type="button" class="btn return-btn btn-danger" id="return-btn" data-id="{{_id}}">Unsave</button>
+        </div>
+        <div class="header-left">
+            <h3 class="articleTitle">{{artist}}</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="body-left">
+            <img src="{{imgthumb}}" class="article-img">
+        </div>
+        <div class="body-right">
+            <p class="venue">Venue: {{venue}}</p>
+            <a href="{{eventlink}}" target="_blank">
+                <p class="event-link">Event Link</p>
+            </a>
+            <p class="details">Details: {{date}}</p>
+            <p class="details">Details: {{time}}</p>
+            <p class="details">Details: {{ticketstatus}}</p>
+        </div>
+    </div>
+</div>
+<br>
+{{/if}}{{/each}}
