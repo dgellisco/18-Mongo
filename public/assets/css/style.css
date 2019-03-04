@@ -2,6 +2,45 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: black;
+    background-image: url("../imgs/background-full.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100% auto;
+    background-attachment: scroll;
+    min-height: 100%
+}
+
+/* NAVBAR */
+.navbar {
+    min-height: 69px;
+}
+
+/* PAGE HEADER */
+.page-header {
+    margin-top: 69px;
+    height: 84px;
+    background-color: rgb(105, 105, 105, 0.5);
+    color: lightgray;
+    width: 100%;
+}
+
+.page-header-text {
+
+}
+
+/* EVENT DIV */
+.event-section {
+    
+}
+
+.event-card {
+    opacity: 0.92;
+    width: 70%;
+    margin: 0 auto;
+}
+
 .event-details-div-img, .event-details-div-body {
     float: left
 }
@@ -10,11 +49,21 @@
     margin-left: 20px;
 }
 
-.save-btns-div {
-    
+.event-details-img {
+    width: 150px;
+    height: auto;
+}
+
+.event-details-img-saved {
+    width: 300px;
+    height: auto;
+}
+
+.event-details-text-saved {
+    font-size: 1.5rem;
 }
 
 .save-btns {
-    float:right;
+    float: right;
     margin-left: 10px;
 }

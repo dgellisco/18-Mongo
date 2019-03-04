@@ -42,6 +42,20 @@ var EventsSchema = new Schema({
         type: Boolean,
         default: false
     },
+    rsvp: {
+        dismissed: {
+            type: Boolean,
+            default: false
+        },
+        interested: {
+            type: Boolean,
+            default: false
+        },
+        going: {
+            type: Boolean,
+            default: false
+        }        
+    },
     notes: [
         {
             type: Schema.Types.ObjectId,

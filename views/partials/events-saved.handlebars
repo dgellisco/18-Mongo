@@ -1,14 +1,17 @@
-{{#each events}}{{#unless saved}}
+{{#each events}}
+    {{#unless rsvp.dismissed}}
+    {{#if saved}}
+    
 <div class="card event-card">
 
-    <div class="card-body event-details-div">
+    <div class="card-body">
         <div class="event-details-div-img">
-            <img src="{{imgthumb}}" class="event-details-img">
+            <img src="{{imgthumb}}" class="event-details-img-saved">
         </div>
         <div class="event-details-div-body">
-            <p class="event-details-text"><strong>{{artist}}</strong></p>
-            <p class="event-details-text">{{venue}}</p>
-            <p class="event-details-text">{{date}} at {{time}}</p>
+            <p class="event-details-text-saved"><strong>{{artist}}</strong></p>
+            <p class="event-details-text-saved">{{venue}}</p>
+            <p class="event-details-text-saved">{{date}} at {{time}}</p>
         </div>
     </div>
 
@@ -18,6 +21,8 @@
             <button type="button" class="btn buy-btns" id="btn-buy" data-id="{{_id}}">
                 {{ticketstatus}}
             </button>
+            {{!-- <button type="button" class="btn btn-notes btn-success" id="btn-notes" data-id="{{_id}}">Notes</button>
+            <button type="button" class="btn btn-unsave btn-danger" id="btn-unsave" data-id="{{_id}}">Unsave</button> --}}
         </a>
         <button type="button" class="btn save-btns btn-going {{#if rsvp.going}} btn-success{{/if}}" data-id="{{_id}}">Going</button>
         <button type="button" class="btn save-btns btn-interested {{#if rsvp.interested}} btn-success{{/if}}" data-id="{{_id}}">Interested</button>
@@ -26,4 +31,6 @@
 
 </div>
 
-{{/unless}}{{/each}}
+    {{/if}}
+    {{/unless}}
+{{/each}}

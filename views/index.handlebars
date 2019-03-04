@@ -1,20 +1,13 @@
 {{> navbar-home}}
-<div class="jumbotron text-center" id="jumbotron">
-    <h3 class="pagetitle">Upcoming Events</h3>
+
+<div class="jumbotron text-center page-header" id="jumbotron">
+    <h3 class="page-header-text">Unsaved Events</h3>
 </div>
+
 <div class="container clearfix" id="container">
     <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><strong>
-                        Save Events to Attend
-                    </strong></h3>
-                </div>
-                <div class="panel-body" id="well-section">
-                    {{> events}}
-                </div>
-            </div>
+        <div class="col-sm-12" id="event-section">
+            {{> events}}    
         </div>
     </div>
 </div>
@@ -46,7 +39,7 @@
             <!-- Modal body -->
             <div class="modal-body" id="modal-message">
                 <h2 class="warning">WARNING!</h2>
-                <p>Selecting "CLEAR!" will delete all your scraped & saved articles, and your notes!</p>
+                <p>Selecting "CLEAR!" will delete all your scraped & saved events, and your notes!</p>
             </div>
 
             <!-- Modal footer -->
@@ -59,19 +52,19 @@
     </div>
 </div>
 
-<!-- Save Article Modal -->
-<div class="modal fade" id="saveArticleModal">
+<!-- Save Event Modal -->
+<div class="modal fade" id="saveEventModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <!-- Modal body -->
             <div class="modal-body" id="modal-message">
-            Article Saved!
+            Input Recieved!
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn saveArticleCloseBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn saveEventCloseBtn" data-dismiss="modal">Close</button>
             </div>
 
         </div>

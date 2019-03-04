@@ -1,9 +1,9 @@
 // Wait to attach our handlers until the DOM is fully loaded.
 $(function() {
 
-    // Function to clear out all the articles.
+    // Function to clear out all the events.
     function clear() {
-        $("#well-section").empty();
+        $(".event-section").empty();
     }
 
     // Run a scrape and display the results.
@@ -11,7 +11,7 @@ $(function() {
         // Keep the page from reloading.
         event.preventDefault();
 
-        // Empty the articles section.
+        // Empty the events section.
         clear();
 
         // Run the scaping route in controller.js with a GET request.
@@ -54,43 +54,101 @@ $(function() {
         });
     });
 
-    // Save an Article.
-    $(".save-btns").on("click", function() {
+    // Save an Event as 'Going'
+    $(".btn-going").on("click", function() {
         // Keep the page from reloading.
         event.preventDefault();
-        // Read data attribute from "save" button.
+        // Immediately add color to button
+        $(this).addClass("btn-success");
+        // Read data attribute from button.
         var id = $(this).data("id");
 
         // Send the PUT request.
         $.ajax({
-            url: "/saved/" + id,
+            url: "/saved-going/" + id,
             type: "PUT",
             success: function () {
                 // Show the 'save' success message in the modal,
-                $('#saveArticleModal').modal('show');
+                $('#saveEventModal').modal('show');
             }
         })
         // then update the page when the modal is closed.
         .then(function() {
-            // console.log("Article has been saved");
-            $(".saveArticleCloseBtn").on("click", function() {
-                window.location.href = '/';
+            // console.log("Event has been saved");
+            $(".saveEventCloseBtn").on("click", function() {
+                window.location.reload();
             });
         });
     });
 
-    // Get all notes for an article.
+    // Save an Event as 'Interested'
+    $(".btn-interested").on("click", function() {
+        // Keep the page from reloading.
+        event.preventDefault();
+        // Immediately add color to button
+        $(this).addClass("btn-success");
+        // Read data attribute from button.
+        var id = $(this).data("id");
+
+        // Send the PUT request.
+        $.ajax({
+            url: "/saved-interested/" + id,
+            type: "PUT",
+            success: function () {
+                // Show the 'save' success message in the modal,
+                $('#saveEventModal').modal('show');
+            }
+        })
+        // then update the page when the modal is closed.
+        .then(function() {
+            // console.log("Event has been saved");
+            $(".saveEventCloseBtn").on("click", function() {
+                window.location.reload();
+            });
+        });
+    });
+
+    // Save an Event as 'Dismissed'
+    $(".btn-dismiss").on("click", function() {
+        // Keep the page from reloading.
+        event.preventDefault();
+        // Immediately add color to button
+        $(this).addClass("btn-danger");
+        // Read data attribute from button.
+        var id = $(this).data("id");
+
+        // Send the PUT request.
+        $.ajax({
+            url: "/saved-dismiss/" + id,
+            type: "PUT",
+            success: function () {
+                // Show the 'save' success message in the modal,
+                $('#saveEventModal').modal('show');
+            }
+        })
+        // then update the page when the modal is closed.
+        .then(function() {
+            // console.log("Event has been saved");
+            $(".saveEventCloseBtn").on("click", function() {
+                window.location.reload();
+            });
+        });
+    });
+
+
+
+    // Get all notes for an Event.
     $(".notes-btn").on("click", function() {
         // Keep the page from reloading.
         event.preventDefault();
         // Empty the notes from the note section
         $(".noteArea").empty();
         // Save the id from the button
-        var articleId = $(this).attr("data-id");
-        // Make the ajax call for the article
+        var eventId = $(this).attr("data-id");
+        // Make the ajax call for the event
         $.ajax({
             method: "GET",
-            url: "/getnotes/" + articleId,
+            url: "/getnotes/" + eventId,
             success: function () {
                 // Open the notes modal
                 $('#notesModal').modal('show');
@@ -105,7 +163,7 @@ $(function() {
             // Create a data-id attribute for the button.
             $(".saveNoteBtn").attr("data-id", id);
 
-            // If there's already a note for the article...
+            // If there's already a note for the event...
             if (data.notes) {
                 console.log(data.notes);
                 for (i=0; i<data.notes.length; i++) {
@@ -162,15 +220,15 @@ $(function() {
         .then(function(data) {
             // Log the response
             console.log(data);
-            window.location.href = '/saved-articles';
+            window.location.href = '/saved-events';
         })
     });
 
     // Save a Note.
     $(".saveNoteBtn").on("click", function() {
-        var articleId = $(this).attr("data-id");
+        var eventId = $(this).attr("data-id");
         $.ajax({
-            url: "/postnotes/" + articleId,
+            url: "/postnotes/" + eventId,
             method: "POST",
             data: {
                 // Value taken from title input
@@ -182,7 +240,7 @@ $(function() {
         .then(function(data) {
             // Log the response
             // console.log(data);
-            window.location.href = '/saved-articles';
+            window.location.href = '/saved-events';
         });
         // Also, remove the values entered in the input and textarea for note entry
         $("#titleinput").val("");
@@ -190,7 +248,7 @@ $(function() {
     });
 
 
-    // Return (unsave) an Article.
+    // Return (unsave) an Event.
     $(".return-btn").on("click", function() {
         // Keep the page from reloading.
         event.preventDefault();
@@ -203,14 +261,14 @@ $(function() {
             type: "PUT",
             success: function () {
                 // Show the 'return' success message in the modal,
-                $('#returnArticleModal').modal('show');
+                $('#returnEventModal').modal('show');
             }
         })
         // then update the page when the modal is closed.
         .then(function() {
-            // console.log("Article removed");
-            $(".returnArticleCloseBtn").on("click", function() {
-                window.location.href = '/saved-articles';
+            // console.log("Event removed");
+            $(".returnEventCloseBtn").on("click", function() {
+                window.location.href = '/saved-events';
             });
         });
     });

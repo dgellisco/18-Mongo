@@ -168,7 +168,7 @@ router.get("/", function(req, res) {
     .then(function(eventsData) {
         // Save all data into handlebars object
         var hbsObject = {events: eventsData};
-        console.log(hbsObject);
+        // console.log(hbsObject);
         res.render("index", hbsObject);
     })
     .catch(function(error) {
@@ -176,14 +176,138 @@ router.get("/", function(req, res) {
     });
 });
 
-// Save an event
-router.put("/saved/:id", function(req, res) {
-    db.Events.update(
-        {_id: req.params.id},
-        {saved: true}
-    )
-    .then(function(result) {
-        res.json(result);
+// Save an event as going
+router.put("/saved-going/:id", function(req, res) {
+    db.Events.find({_id: req.params.id})
+    .then(function(eventData) {
+        if (eventData[0].rsvp.going == false) {
+            db.Events.update(
+                {_id: req.params.id},
+                {$set:
+                    {
+                        saved: true,
+                        "rsvp.dismissed": false,
+                        "rsvp.interested": false,
+                        "rsvp.going": true
+                    }
+                }
+            )
+            .then(function(result) {
+                res.json(result);
+            })
+            .catch(function(error) {
+                res.json(error);
+            });
+        } else {
+            db.Events.update(
+                {_id: req.params.id},
+                {$set:
+                    {
+                        saved: false,
+                        "rsvp.going": false
+                    }
+                }
+            )
+            .then(function(result) {
+                res.json(result);
+            })
+            .catch(function(error) {
+                res.json(error);
+            });
+        }
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+    
+});
+
+// Save an event as interested
+router.put("/saved-interested/:id", function(req, res) {
+    db.Events.find({_id: req.params.id})
+    .then(function(eventData) {
+        console.log(eventData[0].rsvp.interested)
+        if (eventData[0].rsvp.interested == false) {
+            db.Events.update(
+                {_id: req.params.id},
+                {$set:
+                    {
+                        saved: true,
+                        "rsvp.dismissed": false,
+                        "rsvp.interested": true,
+                        "rsvp.going": false
+                    }
+                }
+            )
+            .then(function(result) {
+                res.json(result);
+            })
+            .catch(function(error) {
+                res.json(error);
+            });
+        } else {
+            db.Events.update(
+                {_id: req.params.id},
+                {$set:
+                    {
+                        saved: false,
+                        "rsvp.interested": false
+                    }
+                }
+            )
+            .then(function(result) {
+                res.json(result);
+            })
+            .catch(function(error) {
+                res.json(error);
+            });
+        }
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+});
+
+// Save an event as not interested (i.e. rsvp is blank)
+router.put("/saved-dismiss/:id", function(req, res) {
+    db.Events.find({_id: req.params.id})
+    .then(function(eventData) {
+        console.log(eventData[0].rsvp.dismissed)
+        if (eventData[0].rsvp.dismissed == false) {
+            db.Events.update(
+                {_id: req.params.id},
+                {$set:
+                    {
+                        saved: true,
+                        "rsvp.dismissed": true,
+                        "rsvp.interested": false,
+                        "rsvp.going": false
+                    }
+                }
+            )
+            .then(function(result) {
+                res.json(result);
+            })
+            .catch(function(error) {
+                res.json(error);
+            });
+        } else {
+            db.Events.update(
+                {_id: req.params.id},
+                {$set:
+                    {
+                        saved: false,
+                        "rsvp.dismissed": false
+                    }
+                }
+            )
+            .then(function(result) {
+                res.json(result);
+            })
+            .catch(function(error) {
+                res.json(error);
+            });
+        }
     })
     .catch(function(error) {
         res.json(error);
