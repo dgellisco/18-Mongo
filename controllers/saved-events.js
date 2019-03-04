@@ -16,7 +16,7 @@ var db = require("../models");
 
         // ** ROUTES FOR SAVED ITEMS ** //
 
-// Get all events from DB
+// Get all saved events from DB
 router.get("/events-saved", function(req, res) {
     db.Events.find({})
     .then(function(eventsData) {
@@ -24,6 +24,20 @@ router.get("/events-saved", function(req, res) {
         var hbsObject = {events:eventsData};
         // console.log(hbsObject);
         res.render("saved", hbsObject);
+    })
+    .catch(function(error) {
+        res.json(error);
+    });
+});
+
+// Get all dismissed events from DB
+router.get("/events-deleted", function(req, res) {
+    db.Events.find({})
+    .then(function(eventsData) {
+        // Save all data into handlebars object
+        var hbsObject = {events:eventsData};
+        // console.log(hbsObject);
+        res.render("deleted", hbsObject);
     })
     .catch(function(error) {
         res.json(error);

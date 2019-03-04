@@ -17,6 +17,10 @@ body {
     min-height: 69px;
 }
 
+.btns-navbar-reset {
+    
+}
+
 /* PAGE HEADER */
 .page-header {
     margin-top: 69px;
@@ -45,8 +49,12 @@ body {
     float: left
 }
 
+.event-details-div-img {
+    width: fit-content;
+}
+
 .event-details-div-body {
-    margin-left: 20px;
+    padding-left: 20px;
 }
 
 .event-details-img {

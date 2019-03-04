@@ -69,15 +69,12 @@ $(function() {
             type: "PUT",
             success: function () {
                 // Show the 'save' success message in the modal,
-                $('#saveEventModal').modal('show');
+                // $('#saveEventModal').modal('show');
             }
         })
         // then update the page when the modal is closed.
         .then(function() {
-            // console.log("Event has been saved");
-            $(".saveEventCloseBtn").on("click", function() {
-                window.location.reload();
-            });
+            window.location.reload();
         });
     });
 
@@ -96,15 +93,15 @@ $(function() {
             type: "PUT",
             success: function () {
                 // Show the 'save' success message in the modal,
-                $('#saveEventModal').modal('show');
+                // $('#saveEventModal').modal('show');
             }
         })
         // then update the page when the modal is closed.
         .then(function() {
             // console.log("Event has been saved");
-            $(".saveEventCloseBtn").on("click", function() {
+            // $(".saveEventCloseBtn").on("click", function() {
                 window.location.reload();
-            });
+            // });
         });
     });
 
@@ -123,15 +120,15 @@ $(function() {
             type: "PUT",
             success: function () {
                 // Show the 'save' success message in the modal,
-                $('#saveEventModal').modal('show');
+                // $('#saveEventModal').modal('show');
             }
         })
         // then update the page when the modal is closed.
         .then(function() {
             // console.log("Event has been saved");
-            $(".saveEventCloseBtn").on("click", function() {
+            // $(".saveEventCloseBtn").on("click", function() {
                 window.location.reload();
-            });
+            // });
         });
     });
 

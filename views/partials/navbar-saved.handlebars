@@ -1,15 +1,24 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
     
     <ul class="navbar-nav">
+
         <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/" style="color:white">Home</a>
         </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="/events-saved">Saved Events</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/events-deleted">Deleted Events</a>
+        </li>
+
     </ul>
 
-    <a class="navbar-brand" href="/events-saved">Saved</a>
-
-    <div id="pull-right">
-        <button type="submit" class="btn btn-success" id="scrape-btn" data-toggle="modal" data-target="#scrapeModal">Scrape</button>
-        <button type="submit" class="btn btn-danger" id="clear-btn">Clear</button>
+    <div>
+        <button type="submit" class="btn btn-success btns-navbar-reset" id="scrape-btn" data-toggle="modal" data-target="#scrapeModal">Scrape</button>
+        <button type="submit" class="btn btn-danger btns-navbar-reset" id="clear-btn">Clear</button>
     </div>
+
 </nav>
