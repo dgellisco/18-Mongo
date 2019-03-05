@@ -60,6 +60,15 @@ body {
     padding-left: 20px;
 }
 
+.events-details-div-more-details {
+    clear: both;
+}
+
+.panel-collapse {
+    padding: 1.25rem;
+    padding-top: 0;
+}
+
 .event-details-img {
     width: 150px;
     height: auto;
@@ -74,7 +83,7 @@ body {
     font-size: 1.5rem;
 }
 
-.save-btns {
+.btns-right {
     float: right;
     margin-left: 10px;
 }
