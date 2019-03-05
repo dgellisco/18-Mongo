@@ -1,29 +1,55 @@
-{{#each events}}{{#unless saved}}
-<div class="card event-card">
+{{!--
+    If there are new events, display those events.
+    Otherwise, display instructions.
+--}}
 
-    <div class="card-body event-details-div">
-        <div class="event-details-div-img">
-            <img src="{{imgthumb}}" class="event-details-img">
+{{#if events}}
+
+    {{#each events}}{{#unless saved}}
+    <div class="card event-card">
+
+        <div class="card-body event-details-div">
+            <div class="event-details-div-img">
+                <img src="{{imgthumb}}" class="event-details-img">
+            </div>
+            <div class="event-details-div-body">
+                <p class="event-details-text"><strong>{{artist}}</strong></p>
+                <p class="event-details-text">{{venue}}</p>
+                <p class="event-details-text">{{date}} at {{time}}</p>
+            </div>
         </div>
-        <div class="event-details-div-body">
-            <p class="event-details-text"><strong>{{artist}}</strong></p>
-            <p class="event-details-text">{{venue}}</p>
-            <p class="event-details-text">{{date}} at {{time}}</p>
+
+        {{!-- Buttons Div --}}
+        <div class="card-header save-btns-div">
+            <a href="{{eventlink}}" target="_blank">
+                <button type="button" class="btn buy-btns" id="btn-buy" data-id="{{_id}}">
+                    {{ticketstatus}}
+                </button>
+            </a>
+            <button type="button" class="btn save-btns btn-going {{#if rsvp.going}} btn-success{{/if}}" data-id="{{_id}}">Going</button>
+            <button type="button" class="btn save-btns btn-interested {{#if rsvp.interested}} btn-success{{/if}}" data-id="{{_id}}">Interested</button>
+            <button type="button" class="btn save-btns btn-dismiss {{#if rsvp.dismissed}} btn-danger{{/if}}" data-id="{{_id}}">Dismiss</button>
         </div>
+
     </div>
 
-    {{!-- Buttons Div --}}
-    <div class="card-header save-btns-div">
-        <a href="{{eventlink}}" target="_blank">
-            <button type="button" class="btn buy-btns" id="btn-buy" data-id="{{_id}}">
-                {{ticketstatus}}
-            </button>
-        </a>
-        <button type="button" class="btn save-btns btn-going {{#if rsvp.going}} btn-success{{/if}}" data-id="{{_id}}">Going</button>
-        <button type="button" class="btn save-btns btn-interested {{#if rsvp.interested}} btn-success{{/if}}" data-id="{{_id}}">Interested</button>
-        <button type="button" class="btn save-btns btn-dismiss {{#if rsvp.dismissed}} btn-danger{{/if}}" data-id="{{_id}}">Dismiss</button>
+    {{/unless}}{{/each}}
+
+{{else}}
+
+    <div class="card" style="background-color:gray">
+    
+        <h3 style="color:white">Instructions</h3>
+
+        <div style="color:white">
+            <p>Welcome to MongoConcerts.</p>
+            <p>This app allows you to monitor several Denver concert venue websites through one portal - MongoConcerts!</p>
+            <p>Step 1: Click 'Scrape' to pull data from several pre-selected Denver concert sites.</p>
+            <p>Step 2: A list will populate with upcoming concerts.  Categorise each event based on wheter you're interested, not interested, or going.</p>
+            <p>Step 3: ???</p>
+            <p>Step 4: Profit! Now every time you login, all you need to do is a fresh scrape (sounds appealing, right?) and check if there's any new events.  Gone are the days of checking three sites and every events to see if there's anything new!</p>
+        </div>
+
     </div>
 
-</div>
-
-{{/unless}}{{/each}}
+{{/if}}

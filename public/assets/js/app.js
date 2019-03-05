@@ -23,8 +23,10 @@ $(function() {
         }).then(function() {
             // console.log("Scrape complete");
             // Reload the page to get the scraped data.
-            $(".scrapeCloseBtn").on("click", function() {
-                window.location.href = '/';
+            $(document).on("click", ".btn-scrape-close", function() {
+                setTimeout(function(){
+                    location.reload();
+                }, 1000);
             });
         });
     });
