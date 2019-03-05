@@ -24,9 +24,9 @@ $(function() {
             // console.log("Scrape complete");
             // Reload the page to get the scraped data.
             $(document).on("click", ".btn-scrape-close", function() {
-                setTimeout(function(){
-                    location.reload();
-                }, 1000);
+                // setTimeout(function(){
+                //     location.reload();
+                // }, 1000);
             });
         });
     });
