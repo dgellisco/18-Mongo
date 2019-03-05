@@ -8,11 +8,7 @@ HIGH PRIORITY
 
 MEDIUM PRIORITY
 ---------------
-[ ] JS - Implement notes
-[ ] - Saves extra details (such as price, blurb, or band websites)
-[ ] - Peope can leave a note
-[ ] - Tag your name as interested, going, or something
-[ ] JS - Send to friends
+[ ] JS - Page should refresh only after all scrapes are complete
 [✓] JS - Sort by date
 [ ] JS - REFACTOR CODE
 [ ] - Create reusable functions/methods, especially in axios calls
@@ -21,6 +17,11 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 ------------
+[ ] JS - Implement notes
+[ ] - Saves extra details (such as price, blurb, or band websites)
+[ ] - Peope can leave a note
+[ ] - Tag your name as interested, going, or something
+[ ] JS - Send to friends
 [ ] CSS - fade background, or have it stationary
 [ ] JS - Add a login and multiple instances
 
