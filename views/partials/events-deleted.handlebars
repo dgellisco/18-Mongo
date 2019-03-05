@@ -1,36 +1,58 @@
-{{#each events}}
-    {{#if rsvp.dismissed}}
-    {{#if saved}}
-    
-<div class="card event-card">
+{{#if events}}
+    {{#each events}}
+        {{#if rsvp.dismissed}}
+        {{#if saved}}
+        
+    <div class="card event-card">
 
-    <div class="card-body">
-        <div class="event-details-div-img">
-            <img src="{{imgthumb}}" class="event-details-img">
+            <div class="card-body event-details-div">
+                <div class="event-details-div-img">
+                    <img src="{{imgthumb}}" class="event-details-img">
+                </div>
+                <div class="event-details-div-body">
+                    <p class="event-details-text"><strong>{{artist}}</strong></p>
+                    <p class="event-details-text">{{venue}}</p>
+                    <p class="event-details-text">{{date}} at {{time}}</p>
+                </div>
+            </div>
+            <div class="events-details-div-more-details panel-group">
+                <div class="panel panel-default">
+                    <div id="collapse{{_id}}" class="panel-collapse collapse">
+                        {{#if supportact}}<p>Support Act(s): {{supportact}}</p>{{/if}}
+                        <p>Artist Information</p>
+                        <p>Venue Website</p>
+                        <p>Official Artist Website</p>
+                        <p>Price: xxx</p>
+                        <p>Time: xxx / Doors: xxx</p>
+                    </div>
+                </div>
+            </div>
+
+            {{!-- Buttons Div --}}
+            <div class="card-header btns-right-div">
+                <a href="{{eventlink}}" target="_blank">
+                    <button type="button" class="btn btns-left" id="btn-buy" data-id="{{_id}}">
+                        {{ticketstatus}}
+                    </button>
+                </a>
+                <a data-toggle="collapse" href="#collapse{{_id}}">
+                    <button type="button" class="btn btns-left" data-id="{{_id}}">
+                        More Details
+                    </button>
+                </a>
+                <button type="button" class="btn btns-right btn-going {{#if rsvp.going}} btn-success{{/if}}" data-id="{{_id}}">Going</button>
+                <button type="button" class="btn btns-right btn-interested {{#if rsvp.interested}} btn-success{{/if}}" data-id="{{_id}}">Interested</button>
+                <button type="button" class="btn btns-right btn-dismiss {{#if rsvp.dismissed}} btn-danger{{/if}}" data-id="{{_id}}">Dismiss</button>
+            </div>
+
         </div>
-        <div class="event-details-div-body">
-            <p class="event-details-text"><strong>{{artist}}</strong></p>
-            <p class="event-details-text">{{venue}}</p>
-            <p class="event-details-text">{{date}} at {{time}}</p>
-        </div>
-    </div>
 
-    {{!-- Buttons Div --}}
-    <div class="card-header save-btns-div">
-        <a href="{{eventlink}}" target="_blank">
-            <button type="button" class="btn btns-left" id="btn-buy" data-id="{{_id}}">
-                {{ticketstatus}}
-            </button>
-            {{!-- <button type="button" class="btn btn-notes btn-success" id="btn-notes" data-id="{{_id}}">Notes</button>
-            <button type="button" class="btn btn-unsave btn-danger" id="btn-unsave" data-id="{{_id}}">Unsave</button> --}}
-        </a>
-        <button type="button" class="btn save-btns btn-going {{#if rsvp.going}} btn-success{{/if}}" data-id="{{_id}}">Going</button>
-        <button type="button" class="btn save-btns btn-interested {{#if rsvp.interested}} btn-success{{/if}}" data-id="{{_id}}">Interested</button>
-        <button type="button" class="btn save-btns btn-dismiss {{#if rsvp.dismissed}} btn-danger{{/if}}" data-id="{{_id}}">{{#if rsvp.dismissed}}Undismiss{{else}}Dismiss{{/if}}</button>
-    </div>
+        {{/if}}
+        {{/if}}
+    {{/each}}
 
-</div>
+{{else}}
 
-    {{/if}}
-    {{/if}}
-{{/each}}
+    {{> help}}
+
+{{/if}}

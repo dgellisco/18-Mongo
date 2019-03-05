@@ -1,7 +1,7 @@
 {{> navbar}}
 
 <div class="jumbotron text-center page-header" id="jumbotron">
-    <h3 class="page-header-text">Deleted Events</h3>
+    <h3 class="page-header-text">Help</h3>
     {{!-- <a href="#" style="color:white">New</a>
     |
     <a href="#" style="color:white">Interested</a>
@@ -13,8 +13,8 @@
 
 <div class="container clearfix" id="container">
     <div class="row">
-        <div class="col-sm-12" id="event-section">
-            {{> events-deleted}}    
+        <div class="col" id="event-section">
+            {{> help}}
         </div>
     </div>
 </div>
@@ -31,7 +31,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn scrapeCloseBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-scrape-close" data-dismiss="modal">Close</button>
             </div>
 
         </div>
@@ -52,7 +52,7 @@
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="destroy-btn" data-dismiss="modal">CLEAR!</button>
-                <button type="button" class="btn scrapeCloseBtn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-close" data-dismiss="modal">Close</button>
             </div>
 
         </div>
