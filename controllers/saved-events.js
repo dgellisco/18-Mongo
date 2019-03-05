@@ -71,7 +71,8 @@ router.put("/saved-going/:id", function(req, res) {
                 {_id: req.params.id},
                 {$set:
                     {
-                        saved: false,
+                        saved: true,
+                        "rsvp.interested": true,
                         "rsvp.going": false
                     }
                 }
