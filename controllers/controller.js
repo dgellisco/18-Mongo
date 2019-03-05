@@ -10,6 +10,9 @@ var router = express.Router();
 var axios = require("axios");
 var cheerio = require("cheerio");
 
+// MOMENT
+var moment = require("moment");
+
 // MODELS
 var db = require("../models");
 
@@ -45,6 +48,9 @@ router.get("/scrape", function(req, res) {
             result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
             // Time
             result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
+            // Time and Date
+            result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
+            console.log("ogden event time is " + result.momentjsstamp);
             // Event Link
             result.eventlink = $(this).find(".thumb").children("a").attr("href");
             // Image thumbnail
@@ -64,7 +70,7 @@ router.get("/scrape", function(req, res) {
         });
 
         // Send to client that scrape was completed
-        res.send("Ogden Theatre scrape complete");
+        // res.send("Ogden Theatre scrape complete");
 
         axios
         .get("https://www.gothictheatre.com/events")
@@ -88,6 +94,9 @@ router.get("/scrape", function(req, res) {
                 result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
                 // Time
                 result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
+                // Time and Date
+                result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
+                console.log("gothic event time is " + result.momentjsstamp);
                 // Event Link
                 result.eventlink = $(this).find(".thumb").children("a").attr("href");
                 // Image thumbnail
@@ -107,7 +116,7 @@ router.get("/scrape", function(req, res) {
             });
 
             // Send to client that scrape was completed
-            res.send("Gothic Theatre scrape complete");
+            // res.send("Gothic Theatre scrape complete");
 
             axios
             .get("https://www.bluebirdtheater.net/events")
@@ -131,6 +140,9 @@ router.get("/scrape", function(req, res) {
                     result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
                     // Time
                     result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
+                    // Time and Date
+                    result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
+                    console.log("bluebird event time is " + result.momentjsstamp);
                     // Event Link
                     result.eventlink = $(this).find(".thumb").children("a").attr("href");
                     // Image thumbnail
@@ -150,7 +162,7 @@ router.get("/scrape", function(req, res) {
                 });
 
                 // Send to client that scrape was completed
-                res.send("Bluebird Theatre scrape complete");
+                res.send("Three scrapes complete");
             });
 
         });
@@ -164,7 +176,7 @@ router.get("/scrape", function(req, res) {
 
 // Get all saved events from DB
 router.get("/", function(req, res) {
-    db.Events.find({}, null, {sort: {"artist": 1}})
+    db.Events.find({}, null, {sort: {"momentjsstamp": 1}})
     .then(function(eventsData) {
         // Save all data into handlebars object
         var hbsObject = {events: eventsData};

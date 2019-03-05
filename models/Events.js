@@ -29,6 +29,9 @@ var EventsSchema = new Schema({
     time: {
         type: String
     },
+    momentjsstamp: {
+        type: String
+    },
     eventlink: {
         type: String
     },
