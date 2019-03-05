@@ -3,397 +3,123 @@
 ///                            ///
 
 // EXPRESS
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 // SCRAPING
-var axios = require("axios");
-var cheerio = require("cheerio");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 // MOMENT
-var moment = require("moment");
+const moment = require("moment");
+
+// TEMP
+const fs = require("fs");
 
 // MODELS
-var db = require("../models");
+const db = require("../models");
 
 
 ///                            ///
 ///           ROUTES           ///
 ///                            ///
 
-// ** ROUTES FOR SCRAPING ** //
-
-// Scrape Route
+// ** ROUTE FOR SCRAPING ** //
 router.get("/scrape", function (req, res) {
 
-    // Scrape html
-    axios
-        .get("https://www.ogdentheatre.com/events")
-        .then(function (response) {
+    // AREA 51 - TESTING IN PROGRESS
+    // AEG Events Group
+    var promises = [
+        axios.get("https://www.ogdentheatre.com/events"),
+        axios.get("https://www.bluebirdtheater.net/events"),
+        axios.get("https://www.gothictheatre.com/events"),
+        axios.get("https://www.1stbankcenter.com/events"),
+        axios.get("https://www.fiddlersgreenamp.com/events")
+    ];
 
-            // Load the response into cheerio and store it as a short-hand selector
-            var $ = cheerio.load(response.data);
+    Promise.all(promises)
+        .then(function (scrapedResponses) {
+            scrapedResponses.forEach(function(values) {
+                // Load the response into cheerio and store it as a short-hand selector
+                var $ = cheerio.load(values.data);
 
-            // Save the desired information from the site
-            $(".entry").each(function (i, element) {
+                var x = values.data;
+                
+                // Pull location once, before each loop
+                var locationTextSearch = x.indexOf('<meta name="author" content="');
+                var locationText = x.substring(locationTextSearch, locationTextSearch + 200)
+                locationText = locationText.replace('<meta name="author" content="', "");
+                var locationTextEnd = locationText.indexOf('"');
+                var location = locationText.substring(0, locationTextEnd);
+                
+                // Save the desired information from the site
+                $(".entry").each(function (i, element) {
 
-                // Create an empty object
-                var result = {};
+                    // Create an empty object to store our data
+                    var result = {};
 
-                // Pull the desired information
-                // Artist
-                result.artist = $(this).find(".info").children(".title").children(".carousel_item_title_small").text().trim();
-                // Location
-                result.venue = "Ogden Theatre";
-                // Date
-                result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
-                // Time
-                result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
-                // Time and Date
-                result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
-                // Event Link
-                result.eventlink = $(this).find(".thumb").children("a").attr("href");
-                // Image thumbnail
-                result.imgthumb = $(this).find(".thumb").children("a").children("img").attr("src");
-                // Ticket Status
-                result.ticketstatus = $(this).find(".buttons").children("a").attr("title");
+                    // Pull the desired information
+                    // Artist
+                    result.artist = $(this).find(".info").children(".title").children(".carousel_item_title_small").text().trim();
+                    // Date
+                    result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
+                    // Location
+                    result.venue = location;
+                    // Time
+                    result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
+                    // Time and Date
+                    result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
+                    // Event Link
+                    result.eventlink = $(this).find(".thumb").children("a").attr("href");
+                    // Image thumbnail
+                    result.imgthumb = $(this).find(".thumb").children("a").children("img").attr("src");
+                    // Ticket Status
+                    result.ticketstatus = $(this).find(".buttons").children("a").attr("title");
 
-                // Check if event already exists, if not then create new document
-                db.Events
-                    .findOne({
-                        $and: [{
-                                artist: result.artist
-                            },
-                            {
-                                momentjsstamp: result.momentjsstamp
-                            },
-                            {
-                                eventlink: result.eventlink
+                    // Check if event already exists, if not then create new document
+                    db.Events
+                        .findOne({$and: [
+                            {artist: result.artist},
+                            {momentjsstamp: result.momentjsstamp},
+                            {eventlink: result.eventlink}
+                        ]}, {limit: 1})
+                        .then(function (foundID) {
+                            if (foundID) {
+                                console.log("Event already exists")
+                            } else {
+                                console.log("Event doesn't exist yet - adding!")
+                                // Create result in database
+                                db.Events.create(result)
+                                    .then(function () {})
+                                    .catch(function (error) {
+                                        return res.json(error);
+                                    });
                             }
-                        ]
-                    }, {
-                        limit: 1
-                    }).then(function (foundID) {
-                        if (foundID) {
-                            console.log("Event already exists")
-                        } else {
-                            console.log("Event doesn't exist yet - adding!")
-                            // Create result in database
-                            db.Events.create(result)
-                                .then(function () {})
-                                .catch(function (error) {
-                                    return res.json(error);
-                                });
-                        }
-                    });
-            });
 
-            axios
-        .get("https://www.fiddlersgreenamp.com/events")
-        .then(function (response) {
-
-            // Load the response into cheerio and store it as a short-hand selector
-            var $ = cheerio.load(response.data);
-
-            // Save the desired information from the site
-            $(".entry").each(function (i, element) {
-
-                // Create an empty object
-                var result = {};
-
-                // Pull the desired information
-                // Artist
-                result.artist = $(this).find(".info").children(".title").children(".carousel_item_title_small").text().trim();
-                // Location
-                result.venue = "Fiddler's Green Amphitheatre";
-                // Date
-                result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
-                // Time
-                result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
-                // Time and Date
-                result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
-                // Event Link
-                result.eventlink = $(this).find(".thumb").children("a").attr("href");
-                // Image thumbnail
-                result.imgthumb = $(this).find(".thumb").children("a").children("img").attr("src");
-                // Ticket Status
-                result.ticketstatus = $(this).find(".buttons").children("a").attr("title");
-
-                // Check if event already exists, if not then create new document
-                db.Events
-                    .findOne({
-                        $and: [{
-                                artist: result.artist
-                            },
-                            {
-                                momentjsstamp: result.momentjsstamp
-                            },
-                            {
-                                eventlink: result.eventlink
-                            }
-                        ]
-                    }, {
-                        limit: 1
-                    }).then(function (foundID) {
-                        if (foundID) {
-                            console.log("Event already exists")
-                        } else {
-                            console.log("Event doesn't exist yet - adding!")
-                            // Create result in database
-                            db.Events.create(result)
-                                .then(function () {})
-                                .catch(function (error) {
-                                    return res.json(error);
-                                });
-                        }
-                    });
-            });
-
-            axios
-        .get("https://www.1stbankcenter.com/events")
-        .then(function (response) {
-
-            // Load the response into cheerio and store it as a short-hand selector
-            var $ = cheerio.load(response.data);
-
-            // Save the desired information from the site
-            $(".entry").each(function (i, element) {
-
-                // Create an empty object
-                var result = {};
-
-                // Pull the desired information
-                // Artist
-                result.artist = $(this).find(".info").children(".title").children(".carousel_item_title_small").text().trim();
-                // Location
-                result.venue = "1st Bank Center";
-                // Date
-                result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
-                // Time
-                result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
-                // Time and Date
-                result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
-                // Event Link
-                result.eventlink = $(this).find(".thumb").children("a").attr("href");
-                // Image thumbnail
-                result.imgthumb = $(this).find(".thumb").children("a").children("img").attr("src");
-                // Ticket Status
-                result.ticketstatus = $(this).find(".buttons").children("a").attr("title");
-
-                // Check if event already exists, if not then create new document
-                db.Events
-                    .findOne({
-                        $and: [{
-                                artist: result.artist
-                            },
-                            {
-                                momentjsstamp: result.momentjsstamp
-                            },
-                            {
-                                eventlink: result.eventlink
-                            }
-                        ]
-                    }, {
-                        limit: 1
-                    }).then(function (foundID) {
-                        if (foundID) {
-                            console.log("Event already exists")
-                        } else {
-                            console.log("Event doesn't exist yet - adding!")
-                            // Create result in database
-                            db.Events.create(result)
-                                .then(function () {})
-                                .catch(function (error) {
-                                    return res.json(error);
-                                });
-                        }
-                    });
-            });
-
-            axios
-                .get("https://www.gothictheatre.com/events")
-                .then(function (response) {
-
-                    // Load the response into cheerio and store it as a short-hand selector
-                    var $ = cheerio.load(response.data);
-
-                    // Save the desired information from the site
-                    $(".entry").each(function (i, element) {
-
-                        // Create an empty object
-                        var result = {};
-
-                        // Pull the desired information
-                        // Artist
-                        result.artist = $(this).find(".info").children(".title").children(".carousel_item_title_small").text().trim();
-                        // Location
-                        result.venue = "Gothic Theatre";
-                        // Date
-                        result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
-                        // Time
-                        result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
-                        // Time and Date
-                        result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
-                        // Event Link
-                        result.eventlink = $(this).find(".thumb").children("a").attr("href");
-                        // Image thumbnail
-                        result.imgthumb = $(this).find(".thumb").children("a").children("img").attr("src");
-                        // Ticket Status
-                        result.ticketstatus = $(this).find(".buttons").children("a").attr("title");
-
-                        // Check if event already exists, if not then create new document
-                        db.Events
-                            .findOne({
-                                $and: [{
-                                        artist: result.artist
-                                    },
-                                    {
-                                        momentjsstamp: result.momentjsstamp
-                                    },
-                                    {
-                                        eventlink: result.eventlink
-                                    }
-                                ]
-                            }, {
-                                limit: 1
-                            }).then(function (foundID) {
-                                if (foundID) {
-                                    console.log("Event already exists")
-                                } else {
-                                    console.log("Event doesn't exist yet - adding!")
-                                    // Create result in database
-                                    db.Events.create(result)
-                                        .then(function () {})
-                                        .catch(function (error) {
-                                            return res.json(error);
-                                        });
+                        // Delete any events that are dated before today (0) or three days ahead (3)
+                        var midnightTonight = moment().startOf("day").add(0, "days").format();
+                        db.Events.find({momentjsstamp: {$lt: midnightTonight}}, null, {sort: {artist: 1}})
+                            .then(function (eventsData) {
+                                for (i = 0; i < eventsData.length; i++) {
+                                    console.log("artist concert deleted " + eventsData[i].artist);
                                 }
                             });
-
-                    });
-
-                    // Send to client that scrape was completed
-                    // res.send("Gothic Theatre scrape complete");
-
-                    axios
-                        .get("https://www.bluebirdtheater.net/events")
-                        .then(function (response) {
-
-                            // Load the response into cheerio and store it as a short-hand selector
-                            var $ = cheerio.load(response.data);
-
-                            // Save the desired information from the site
-                            $(".entry").each(function (i, element) {
-
-                                // Create an empty object
-                                var result = {};
-
-                                // Pull the desired information
-                                // Artist
-                                result.artist = $(this).find(".info").children(".title").children(".carousel_item_title_small").text().trim();
-                                // Location
-                                result.venue = "Bluebird Theatre";
-                                // Date
-                                result.date = $(this).find(".info").children(".date-time-container").children(".date").text().trim();
-                                // Time
-                                result.time = $(this).find(".info").children(".date-time-container").children(".time").text().replace("Show", "").trim();
-                                // Time and Date
-                                result.momentjsstamp = moment(result.date + " " + result.time, "ddd, MMM D, YYYY h:mm a").format();
-                                // Event Link
-                                result.eventlink = $(this).find(".thumb").children("a").attr("href");
-                                // Image thumbnail
-                                result.imgthumb = $(this).find(".thumb").children("a").children("img").attr("src");
-                                // Ticket Status
-                                result.ticketstatus = $(this).find(".buttons").children("a").attr("title");
-
-                                // Check if event already exists, if not then create new document
-                                db.Events
-                                    .findOne({
-                                        $and: [{
-                                                artist: result.artist
-                                            },
-                                            {
-                                                momentjsstamp: result.momentjsstamp
-                                            },
-                                            {
-                                                eventlink: result.eventlink
-                                            }
-                                        ]
-                                    }, {
-                                        limit: 1
-                                    }).then(function (foundID) {
-
-                                        if (foundID) {
-                                            console.log("Event already exists")
-                                        } else {
-                                            console.log("Event doesn't exist yet - adding!")
-                                            // Create result in database
-                                            db.Events.create(result)
-                                                .then(function () {})
-                                                .catch(function (error) {
-                                                    return res.json(error);
-                                                });
-                                        }
-
-                                                // Delete any events that are dated before today
-                                var midnightTonight = moment().startOf("day").add(10, "days").format();
-
-                                db.Events.find({
-                                        momentjsstamp: {
-                                            $lt: midnightTonight
-                                        }
-                                    }, null, {
-                                        sort: {
-                                            artist: 1
-                                        }
-                                    })
-                                    .then(function (eventsData) {
-                                        for (i = 0; i < eventsData.length; i++) {
-                                            // console.log(eventsData[i].artist);
-                                        }
-                                    });
-
-                                db.Events
-                                    .deleteMany({
-                                            momentjsstamp: {
-                                                $lt: midnightTonight
-                                            }
-                                        },
-                                        function (i, err) {
-                                            if (err) {
-                                                console.log(err);
-                                            } else {
-
-                                            }
-                                            console.log("ENTIRE PROCESS COMPLETED");
-                                            console.log("ENTIRE PROCESS COMPLETED");
-                                            console.log("ENTIRE PROCESS COMPLETED");
-                                            console.log("ENTIRE PROCESS COMPLETED");
-                                            
-                                        }
-                                    );
-
-                                    });
-
-                        
-
-                                
-                            });
-
-                            // Send to client that scrape was completed
-                            res.send("Three scrapes complete");
+                        db.Events.deleteMany({momentjsstamp: {$lt: midnightTonight}}, function (i, err) {
+                            if (err) {
+                                console.log(err);
+                            }   
                         });
 
+                        console.log("ENTIRE PROCESS COMPLETED???")
+                    });
                 });
-            });
-        });
+            })
 
-
-
-        });
+    });
 
 });
 
+    // AREA 51 - TESTING IN PROGRESS
 
 // ** ROUTES TO SEND TO SERVER.JS ** //
 

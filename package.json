@@ -22,6 +22,7 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
+    "fs": "0.0.1-security",
     "moment": "^2.24.0",
     "mongoose": "^5.4.16",
     "morgan": "^1.9.1",
