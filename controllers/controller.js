@@ -75,6 +75,16 @@ router.get("/scrape", function (req, res) {
                     result.imgthumb = $(this).find(".thumb").children("a").children("img").attr("src");
                     // Ticket Status
                     result.ticketstatus = $(this).find(".buttons").children("a").attr("title");
+                    // Support Act
+                    var supportact = $(this).find(".info").children(".title").children("h4").text().trim();
+                    if (supportact.startsWith("with ")) {
+                        supportact = supportact.replace("with special guests: ", "");
+                        supportact = supportact.replace("with special guest: ", "");
+                        supportact = supportact.replace("with special guests ", "");
+                        supportact = supportact.replace("with special guest ", "");
+                        supportact = supportact.replace("with ", "");
+                    }
+                    result.supportact = supportact;
 
                     // Check if event already exists, if not then create new document
                     db.Events

@@ -41,6 +41,9 @@ var EventsSchema = new Schema({
     ticketstatus: {
         type: String
     },
+    supportact: {
+        type: String,
+    },
     saved: {
         type: Boolean,
         default: false
