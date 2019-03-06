@@ -62,6 +62,7 @@ var EventsSchema = new Schema({
             default: false
         }        
     },
+    // store ID of note and link it to the note collection
     notes: [
         {
             type: Schema.Types.ObjectId,

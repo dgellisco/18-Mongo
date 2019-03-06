@@ -155,7 +155,7 @@ router.get("/", function (req, res) {
 
 // Get help
 router.get("/help", function (req, res) {
-    res.render("index");
+    res.render("help");
 });
 
 // Save an event as going

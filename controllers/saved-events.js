@@ -208,7 +208,7 @@ router.post("/postnotes/:id", function(req, res) {
         return db.Events.findOneAndUpdate(
             {_id: req.params.id},
             {$push:
-                {notes: dbNotes._id}
+                {notes: dbNote._id}
             },
             {new: true}
         );
@@ -239,7 +239,7 @@ router.delete("/deletenote/:id", function(req, res) {
     db.Notes.remove(
         {_id: req.params.id}
     )
-    .then(function (dbNote) {
+    .then(function(dbNote) {
         res.json(dbNote);
     })
     .catch(function(error) {

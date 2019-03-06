@@ -3,7 +3,7 @@
         {{#unless rsvp.dismissed}}
         {{#if saved}}
         
-    <div class="card event-card">
+<div class="card event-card">
 
             <div class="card-body event-details-div">
                 <div class="event-details-div-img">
@@ -19,11 +19,11 @@
                 <div class="panel panel-default">
                     <div id="collapse{{_id}}" class="panel-collapse collapse">
                         {{#if supportact}}<p>Support Act(s): {{supportact}}</p>{{/if}}
-                        <p>Artist Information</p>
+                        {{!-- <p>Artist Information</p>
                         <p>Venue Website</p>
                         <p>Official Artist Website</p>
                         <p>Price: xxx</p>
-                        <p>Time: xxx / Doors: xxx</p>
+                        <p>Time: xxx / Doors: xxx</p> --}}
                     </div>
                 </div>
             </div>
@@ -35,11 +35,14 @@
                         {{ticketstatus}}
                     </button>
                 </a>
-                <a data-toggle="collapse" href="#collapse{{_id}}">
+                {{#if supportact}}<a data-toggle="collapse" href="#collapse{{_id}}">
                     <button type="button" class="btn btns-left" data-id="{{_id}}">
-                        More Details
+                        Support Acts
                     </button>
-                </a>
+                </a>{{/if}}
+                <button type="button" class="btn btns-left btn-notes" data-id="{{_id}}">
+                    Add/View Notes
+                </button>
                 <button type="button" class="btn btns-right btn-going {{#if rsvp.going}} btn-success{{/if}}" data-id="{{_id}}">Going</button>
                 <button type="button" class="btn btns-right btn-interested {{#if rsvp.interested}} btn-success{{/if}}" data-id="{{_id}}">Interested</button>
                 <button type="button" class="btn btns-right btn-dismiss {{#if rsvp.dismissed}} btn-danger{{/if}}" data-id="{{_id}}">Dismiss</button>
