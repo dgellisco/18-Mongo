@@ -24,7 +24,7 @@
     "express-handlebars": "^3.0.2",
     "fs": "0.0.1-security",
     "moment": "^2.24.0",
-    "mongoose": "^5.4.16",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "request": "^2.88.0"
   },
